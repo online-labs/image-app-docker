@@ -6,7 +6,7 @@ DOCKER_VERSION=$(docker version)
 DOCKER_INFO=$(docker info)
 
 STORAGE_DRIVER=$(echo "$DOCKER_INFO" | grep Storage\ Driver | awk '{print $NF}')
-VERSION=$(echo "$DOCKER_VERSION" | grep Client\ version | awk '{print $NF}')
+VERSION=$(echo "$DOCKER_VERSION" | grep Version | head -n 1  | awk '{print $2}')
 
 cat <<EOF
 
