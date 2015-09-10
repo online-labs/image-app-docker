@@ -6,6 +6,10 @@ TITLE =			Docker
 DESCRIPTION =		Docker + Docker-Compose + gosu + nsenter + pipework
 SOURCE_URL =		https://github.com/scaleway/image-app-docker
 
+IMAGE_VOLUME_SIZE =	50G
+IMAGE_BOOTSCRIPT =	docker
+IMAGE_NAME =		Docker 1.8
+
 
 ## Image tools  (https://github.com/scaleway/image-tools)
 all:	docker-rules.mk
