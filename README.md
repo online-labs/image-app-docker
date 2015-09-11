@@ -1,5 +1,5 @@
 # Docker image on Scaleway
-[![Build Status](https://travis-ci.org/scaleway/image-app-docker.svg?branch=master)](https://travis-ci.org/scaleway/image-app-docker)
+[![Build Status](https://travis-ci.org/scaleway-community/scaleway-docker.svg?branch=master)](https://travis-ci.org/scaleway-community/scaleway-docker)
 
 
 Scripts to build the official Docker image on Scaleway
