@@ -4,7 +4,7 @@ VERSION =		latest
 VERSION_ALIASES =	1.8.1 1.8 1
 TITLE =			Docker
 DESCRIPTION =		Docker + Docker-Compose + gosu + nsenter + pipework
-SOURCE_URL =		https://github.com/scaleway/image-app-docker
+SOURCE_URL =		https://github.com/scaleway-community/scaleway-docker
 
 IMAGE_VOLUME_SIZE =	50G
 IMAGE_BOOTSCRIPT =	docker
