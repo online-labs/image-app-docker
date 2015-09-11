@@ -1,5 +1,4 @@
-DOCKER_NAMESPACE =	armbuild/
-NAME =			scw-app-docker
+NAME =			docker
 VERSION =		latest
 VERSION_ALIASES =	1.8.1 1.8 1
 TITLE =			Docker
