@@ -1,3 +1,4 @@
+
 ## -*- docker-image-name: "scaleway/docker:latest" -*-
 FROM scaleway/ubuntu:vivid
 MAINTAINER Scaleway <opensource@scaleway.com> (@scaleway)
@@ -31,7 +32,7 @@ RUN apt-get install $(apt-cache depends docker.io | grep Depends | sed "s/.*ends
 
 
 # Install Docker
-ENV DOCKER_VERSION 1.8.1
+ENV DOCKER_VERSION 1.8.2
 ENV DOCKER_FIX -1
 # docker-hypriot_XXX_armhf.deb built using https://github.com/hypriot/rpi-docker-builder
 RUN wget -q http://downloads.hypriot.com/docker-hypriot_${DOCKER_VERSION}${DOCKER_FIX}_armhf.deb -O /tmp/docker.deb \
