@@ -59,7 +59,7 @@ RUN easy_install -U pip \
 
 
 # Install Docker Machine
-ENV DOCKER_MACHINE_VERSION 0.3.1
+ENV DOCKER_MACHINE_VERSION 0.4.1
 RUN wget -qO /usr/local/bin/docker-machine https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine_linux-arm \
  && chmod +x /usr/local/bin/docker-machine
 
