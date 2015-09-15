@@ -1,3 +1,4 @@
+
 ## -*- docker-image-name: "scaleway/docker:latest" -*-
 FROM scaleway/ubuntu:vivid
 MAINTAINER Scaleway <opensource@scaleway.com> (@scaleway)
@@ -31,7 +32,7 @@ RUN apt-get install $(apt-cache depends docker.io | grep Depends | sed "s/.*ends
 
 
 # Install Docker
-ENV DOCKER_VERSION 1.8.1
+ENV DOCKER_VERSION 1.8.2
 ENV DOCKER_FIX -1
 # docker-hypriot_XXX_armhf.deb built using https://github.com/hypriot/rpi-docker-builder
 RUN wget -q http://downloads.hypriot.com/docker-hypriot_${DOCKER_VERSION}${DOCKER_FIX}_armhf.deb -O /tmp/docker.deb \
@@ -46,7 +47,7 @@ RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/
 
 
 # Install Gosu
-ENV GOSU_VERSION 1.3
+ENV GOSU_VERSION 1.4
 RUN wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-armhf && \
     chmod +x /usr/local/bin/gosu
 
@@ -58,7 +59,7 @@ RUN easy_install -U pip \
 
 
 # Install Docker Machine
-ENV DOCKER_MACHINE_VERSION 0.3.1
+ENV DOCKER_MACHINE_VERSION 0.4.1
 RUN wget -qO /usr/local/bin/docker-machine https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine_linux-arm \
  && chmod +x /usr/local/bin/docker-machine
 
