@@ -1,6 +1,6 @@
 
 ## -*- docker-image-name: "scaleway/docker:latest" -*-
-FROM scaleway/ubuntu:vivid
+FROM scaleway/ubuntu:wily
 MAINTAINER Scaleway <opensource@scaleway.com> (@scaleway)
 
 
