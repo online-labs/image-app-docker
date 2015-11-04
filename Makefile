@@ -1,13 +1,13 @@
 NAME =			docker
 VERSION =		latest
-VERSION_ALIASES =	1.8.2 1.8 1
+VERSION_ALIASES =	1.9.0 1.9 1
 TITLE =			Docker
 DESCRIPTION =		Docker + Docker-Compose + gosu + nsenter + pipework
 SOURCE_URL =		https://github.com/scaleway-community/scaleway-docker
 
 IMAGE_VOLUME_SIZE =	50G
 IMAGE_BOOTSCRIPT =	docker
-IMAGE_NAME =		Docker 1.8.2
+IMAGE_NAME =		Docker 1.9.0
 
 
 ## Image tools  (https://github.com/scaleway/image-tools)
