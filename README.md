@@ -18,7 +18,7 @@ We use the Docker's building system and convert it at the end to a disk image th
 
 ## Install
 
-Build and write the image to /dev/nbd1 (see [documentation](https://www.scaleway.com/docs/create_an_image_with_docker))
+Build and write the image to /dev/nbd1 (see [documentation](https://www.scaleway.com/docs/create-an-image-with-docker))
 
     $ make install
 
