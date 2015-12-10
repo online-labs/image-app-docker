@@ -1,6 +1,6 @@
 NAME =			docker
 VERSION =		latest
-VERSION_ALIASES =	1.9.0 1.9 1
+VERSION_ALIASES =	1.9.1 1.9 1
 TITLE =			Docker
 DESCRIPTION =		Docker + Docker-Compose + gosu + nsenter + pipework
 SOURCE_URL =		https://github.com/scaleway-community/scaleway-docker
