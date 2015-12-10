@@ -7,7 +7,7 @@ SOURCE_URL =		https://github.com/scaleway-community/scaleway-docker
 
 IMAGE_VOLUME_SIZE =	50G
 IMAGE_BOOTSCRIPT =	docker
-IMAGE_NAME =		Docker 1.9.0
+IMAGE_NAME =		Docker 1.9.1
 
 
 ## Image tools  (https://github.com/scaleway/image-tools)
