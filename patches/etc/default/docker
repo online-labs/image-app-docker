@@ -1,5 +1,5 @@
 DOCKER_OPTS='                   \
 -H unix:///var/run/docker.sock  \
---storage-driver aufs           \
+--storage-driver btrfs          \
 --label provider=scaleway       \
 '
