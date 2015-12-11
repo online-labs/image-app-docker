@@ -14,6 +14,8 @@ IMAGE_NAME =		Docker 1.9.1
 all:	docker-rules.mk
 docker-rules.mk:
 	wget -qO - http://j.mp/scw-builder | bash
+	sed -i -e "s/mkfs.ext4/mkfs.btrfs -f -O ^extref,^skinny-metadata/1" docker-rules.mk
+
 -include docker-rules.mk
 ## Here you can add custom commands and overrides
 
