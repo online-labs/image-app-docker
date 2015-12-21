@@ -1,4 +1,3 @@
-
 ## -*- docker-image-name: "scaleway/docker:latest" -*-
 FROM scaleway/ubuntu:wily
 MAINTAINER Scaleway <opensource@scaleway.com> (@scaleway)
@@ -16,13 +15,15 @@ RUN apt-get -q update                   \
 	arping				\
 	aufs-tools			\
 	btrfs-tools			\
-	bridge-utils                    \
+	bridge-utils			\
 	cgroup-lite			\
+	gcc				\
 	git				\
+	golang				\
 	ifupdown			\
 	kmod				\
 	lxc				\
-	python-setuptools               \
+	python-setuptools		\
 	vlan				\
  && apt-get clean
 
@@ -38,8 +39,8 @@ RUN wget -q http://downloads.hypriot.com/docker-hypriot_${DOCKER_VERSION}${DOCKE
  && dpkg -i /tmp/docker.deb \
  && rm -f /tmp/docker.deb \
  && systemctl enable docker
- 
- 
+
+
 # Install Pipework
 RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework && \
     chmod +x /usr/local/bin/pipework
@@ -58,10 +59,20 @@ RUN easy_install -U pip \
 
 
 # Install Docker Machine
-ENV DOCKER_MACHINE_VERSION 0.4.1
-RUN wget -qO /usr/local/bin/docker-machine https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine_linux-arm \
- && chmod +x /usr/local/bin/docker-machine
+ENV DOCKER_MACHINE_VERSION 0.5.0
+ENV GOPATH /tmp/docker-machine
+RUN mkdir -p /tmp/docker-machine \
+ && cd /tmp/docker-machine \
+ && go get github.com/docker/machine \
+ && cd src/github.com/docker/machine \
+ && git checkout v${DOCKER_MACHINE_VERSION} \
+ && make build \
+ && make install \
+ && rm -fr /tmp/docker-machine
 
+RUN apt-get -y --purge autoremove \
+      gcc \
+      golang
 
 # Patch rootfs
 ADD ./patches/etc/ /etc/
