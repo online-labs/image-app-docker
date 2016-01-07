@@ -4,6 +4,7 @@ VERSION_ALIASES =	1.9.1 1.9 1
 TITLE =			Docker
 DESCRIPTION =		Docker + Docker-Compose + gosu + nsenter + pipework
 SOURCE_URL =		https://github.com/scaleway-community/scaleway-docker
+DEFAULT_IMAGE_ARCH =	x86_64
 
 IMAGE_VOLUME_SIZE =	50G
 IMAGE_BOOTSCRIPT =	docker
@@ -19,8 +20,10 @@ docker-rules.mk:
 
 
 update_nsenter:
-	docker run --rm -v $(PWD)/patches/usr/bin:/target armbuild/jpetazzo-nsenter
+	mkdir -p overlay-${ARCH}
+	docker run --rm -v $(PWD)/overlay-${ARCH}/usr/bin:/target armbuild/jpetazzo-nsenter
 
 update_swarm:
+	mkdir -p overlay-${ARCH}
 	go get -u github.com/docker/swarm
-	cd $(GOPATH)/src/github.com/docker/swarm/ && GOOS=linux GOARCH=arm GOARM=7 go build -a -v -ldflags '-d -w -s' -o $(PWD)/patches/usr/bin/swarm
+	cd $(GOPATH)/src/github.com/docker/swarm/ && GOOS=linux GOARCH=arm GOARM=7 go build -a -v -ldflags '-d -w -s' -o $(PWD)/overlay-${ARCH}/usr/bin/swarm

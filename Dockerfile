@@ -1,6 +1,13 @@
+## -*- docker-image-name: "scaleway/ubuntu:wily" -*-
+FROM scaleway/ubuntu:amd64-wily
+# following 'FROM' lines are used dynamically thanks do the image-builder
+# which dynamically update the Dockerfile if needed.
+#FROM scaleway/ubuntu:armhf-wily	# arch=armv7l
+#FROM scaleway/ubuntu:arm64-wily	# arch=arm64
+#FROM scaleway/ubuntu:i386-wily		# arch=i386
+#FROM scaleway/ubuntu:mips-wily		# arch=mips
 
-## -*- docker-image-name: "scaleway/docker:latest" -*-
-FROM scaleway/ubuntu:wily
+
 MAINTAINER Scaleway <opensource@scaleway.com> (@scaleway)
 
 
@@ -46,7 +53,7 @@ RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/
 
 
 # Install Gosu
-ENV GOSU_VERSION 1.4
+ENV GOSU_VERSION=1.4
 RUN wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-armhf && \
     chmod +x /usr/local/bin/gosu
 
@@ -58,15 +65,13 @@ RUN easy_install -U pip \
 
 
 # Install Docker Machine
-ENV DOCKER_MACHINE_VERSION 0.4.1
+ENV DOCKER_MACHINE_VERSION=0.4.1
 RUN wget -qO /usr/local/bin/docker-machine https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine_linux-arm \
  && chmod +x /usr/local/bin/docker-machine
 
 
 # Patch rootfs
-ADD ./patches/etc/ /etc/
-ADD ./patches/usr/bin/ /usr/bin/
-ADD ./patches/usr/local/ /usr/local/
+COPY ./overlay /
 RUN systemctl disable docker; systemctl enable docker
 
 
