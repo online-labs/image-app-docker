@@ -1,3 +1,4 @@
+/tmp/
 .overlays
 tmp-*/
 docker-rules.mk
