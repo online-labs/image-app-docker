@@ -20,11 +20,20 @@ docker-rules.mk:
 
 
 update_nsenter:
-	mkdir -p overlay-${ARCH}
-	docker run --rm -v $(PWD)/overlay-${ARCH}/usr/bin:/target armbuild/jpetazzo-nsenter
+	mkdir -p overlay-$(TARGET_UNAME_ARCH)/usr/bin tmp
+	# fetch docker-enter
+	wget https://raw.githubusercontent.com/jpetazzo/nsenter/master/docker-enter -NO overlay-$(TARGET_UNAME_ARCH)/usr/bin/docker-enter
+	# build importenv
+	cd tmp; wget -N https://github.com/jpetazzo/nsenter/raw/master/importenv.c
+	rm -f tmp/importenv
+	docker run --rm -it -e CROSS_TRIPLE=$(TARGET_UNAME_ARCH) -v $(shell pwd)/tmp:/workdir multiarch/crossbuild cc -static -o importenv importenv.c
+	mv tmp/importenv overlay-$(TARGET_UNAME_ARCH)/usr/bin/
+	# build nsenter
+	# FIXME: todo
+
 
 update_swarm:
-	mkdir -p overlay-$(ARCH)/usr/bin tmp
+	mkdir -p overlay-$(TARGET_UNAME_ARCH)/usr/bin tmp
 	docker run \
 	  -it --rm -e GO15VENDOREXPERIMENT=1 -w $(PWD)/tmp:/host \
 	  multiarch/goxc \
