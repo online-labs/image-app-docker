@@ -45,11 +45,15 @@ update_nsenter:
 
 
 update_swarm:
-	mkdir -p overlay-$(TARGET_UNAME_ARCH)/usr/bin tmp
-	docker run \
-	  -it --rm -e GO15VENDOREXPERIMENT=1 -w $(PWD)/tmp:/host \
-	  multiarch/goxc \
-	  sh -xec '\
-	    go get -u -v github.com/docker/swarm || true; \
-	    goxc -bc="linux,$(TARGET_GOLANG_ARCH)" -wd /go/src/github.com/docker/swarm -d /host -pv tmp xc \
+	mkdir -p tmp
+	docker run                                                                    \
+	  -it --rm -e GO15VENDOREXPERIMENT=1 -v $(shell pwd)/tmp:/host                \
+	  multiarch/goxc                                                              \
+	  sh -xec '                                                                   \
+	    go get -d -v github.com/docker/swarm || true;                             \
+	    cd /go/src/github.com/docker/swarm; godep restore || true;                \
+	    goxc -bc="linux" -wd /go/src/github.com/docker/swarm -d /host -pv tmp xc  \
 	  '
+	mkdir -p overlay-x86_64/usr/bin overlay-armv7l/usr/bin
+	mv tmp/tmp/linux_arm/swarm overlay-armv7l/usr/bin/
+	mv tmp/tmp/linux_amd64/swarm overlay-x86_64/usr/bin/
