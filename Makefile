@@ -24,9 +24,11 @@ update_nsenter:
 	docker run --rm -v $(PWD)/overlay-${ARCH}/usr/bin:/target armbuild/jpetazzo-nsenter
 
 update_swarm:
-	mkdir -p overlay-$(ARCH)/usr/bin
-	go get -u github.com/docker/swarm || true
-	go get github.com/laher/goxc
-	goxc -t -bc="linux,$(TARGET_GOLANG_ARCH)"
-	GO15VENDOREXPERIMENT=1 goxc -bc="linux,$(TARGET_GOLANG_ARCH)" -wd $(GOPATH)/src/github.com/docker/swarm -d . -pv tmp xc
-	mv tmp/linux_$(TARGET_GOLANG_ARCH)/swarm overlay-$(ARCH)/usr/bin/swarm
+	mkdir -p overlay-$(ARCH)/usr/bin tmp
+	docker run \
+	  -it --rm -e GO15VENDOREXPERIMENT=1 -w $(PWD)/tmp:/host \
+	  multiarch/goxc \
+	  sh -xec '\
+	    go get -u -v github.com/docker/swarm || true; \
+	    goxc -bc="linux,$(TARGET_GOLANG_ARCH)" -wd /go/src/github.com/docker/swarm -d /host -pv tmp xc \
+	  '
