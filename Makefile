@@ -21,15 +21,27 @@ docker-rules.mk:
 
 update_nsenter:
 	mkdir -p overlay-$(TARGET_UNAME_ARCH)/usr/bin tmp
+
+	# build nsenter
+	# disabled for now, there are bugs with the current ./configure script and the crossbuild image
+	#cd tmp; wget -N https://www.kernel.org/pub/linux/utils/util-linux/v2.26/util-linux-2.26.tar.gz
+	#rm -rf tmp/util-linux-2.26
+	#cd tmp; tar -xf util-linux-2.26.tar.gz
+	#ln -sf util-linux-2.26 tmp/util-linux
+	#docker run --rm -it -e CROSS_TRIPLE=$(TARGET_UNAME_ARCH) -v $(shell pwd)/tmp/util-linux:/workdir multiarch/crossbuild sh -xec ' \
+	#  ./configure --without-ncurses && \
+	#  make LDFLAGS=-all-static nsenter \
+	#'
+	docker run --rm -v $(shell pwd)/overlay-x86_64/usr/bin/:/target jpetazzo/nsenter || true
+	  
 	# fetch docker-enter
 	wget https://raw.githubusercontent.com/jpetazzo/nsenter/master/docker-enter -NO overlay-$(TARGET_UNAME_ARCH)/usr/bin/docker-enter
+
 	# build importenv
 	cd tmp; wget -N https://github.com/jpetazzo/nsenter/raw/master/importenv.c
 	rm -f tmp/importenv
 	docker run --rm -it -e CROSS_TRIPLE=$(TARGET_UNAME_ARCH) -v $(shell pwd)/tmp:/workdir multiarch/crossbuild cc -static -o importenv importenv.c
 	mv tmp/importenv overlay-$(TARGET_UNAME_ARCH)/usr/bin/
-	# build nsenter
-	# FIXME: todo
 
 
 update_swarm:
