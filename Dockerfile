@@ -1,4 +1,4 @@
-## -*- docker-image-name: "scaleway/ubuntu:wily" -*-
+## -*- docker-image-name: "scaleway/docker" -*-
 FROM scaleway/ubuntu:amd64-wily
 # following 'FROM' lines are used dynamically thanks do the image-builder
 # which dynamically update the Dockerfile if needed.
@@ -16,7 +16,8 @@ RUN /usr/local/sbin/builder-enter
 
 
 # Install packages
-RUN apt-get -q update                   \
+RUN sed -i '/mirror.scaleway/s/^/#/' /etc/apt/sources.list \
+ && apt-get -q update                   \
  && apt-get --force-yes -y -qq upgrade  \
  && apt-get --force-yes install -y -q   \
 	apparmor			\
@@ -41,12 +42,19 @@ RUN apt-get install $(apt-cache depends docker.io | grep Depends | sed "s/.*ends
 # Install Docker
 ENV DOCKER_VERSION=1.9.1 DOCKER_FIX=-1
 # docker-hypriot_XXX_armhf.deb built using https://github.com/hypriot/rpi-docker-builder
-RUN wget -q http://downloads.hypriot.com/docker-hypriot_${DOCKER_VERSION}${DOCKER_FIX}_armhf.deb -O /tmp/docker.deb \
- && dpkg -i /tmp/docker.deb \
- && rm -f /tmp/docker.deb \
- && systemctl enable docker
- 
- 
+RUN case ${ARCH} in                                                                             \
+    armhf)                                                                                      \
+      wget -q http://downloads.hypriot.com/docker-hypriot_1.9.1-1_armhf.deb -O /tmp/docker.deb  \
+      && dpkg -i /tmp/docker.deb                                                                \
+      && rm -f /tmp/docker.deb                                                                  \
+      && systemctl enable docker;                                                               \
+      ;;                                                                                        \
+    *)                                                                                          \
+      curl -L https://get.docker.com/ | sh;                                                     \
+      ;;                                                                                        \
+    esac
+
+
 # Install Pipework
 RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework && \
     chmod +x /usr/local/bin/pipework
