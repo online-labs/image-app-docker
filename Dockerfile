@@ -61,7 +61,7 @@ RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/
 
 
 # Install Gosu
-ENV GOSU_VERSION=1.4
+ENV GOSU_VERSION=1.7
 RUN case ${ARCH} in                                                                                                  \
     armhf)                                                                                                           \
         wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-armhf &&  \
