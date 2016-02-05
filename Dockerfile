@@ -43,7 +43,7 @@ RUN apt-get install $(apt-cache depends docker.io | grep Depends | sed "s/.*ends
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
       echo "docker-hypriot_XXX_armhf.deb built using https://github.com/hypriot/rpi-docker-builder";  \
-      wget -q http://downloads.hypriot.com/docker-hypriot_1.9.1-1_armhf.deb -O /tmp/docker.deb &&     \
+      wget -q http://downloads.hypriot.com/docker-hypriot_1.10.0-1_armhf.deb -O /tmp/docker.deb &&    \
       dpkg -i /tmp/docker.deb &&                                                                      \
       rm -f /tmp/docker.deb &&                                                                        \
       systemctl enable docker;                                                                        \
