@@ -94,10 +94,10 @@ RUN easy_install -U pip                                     \
 
 
 # Install Docker Machine
-ENV DOCKER_MACHINE_VERSION=0.5.6
+ENV DOCKER_MACHINE_VERSION=0.6.0
 RUN case "${ARCH}" in                                                                                                                                        \
     x86_64|amd64|i386)                                                                                                                                       \
-        curl -L https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine_linux-amd64 >/usr/local/bin/docker-machine &&  \
+        curl -L https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine-Linux-x86_64 >/usr/local/bin/docker-machine && \
         chmod +x /usr/local/bin/docker-machine &&                                                                                                            \
 	docker-machine --version;                                                                                                                            \
       ;;                                                                                                                                                     \
