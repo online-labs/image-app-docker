@@ -1,28 +1,22 @@
 # Docker image on Scaleway
 [![Build Status](https://travis-ci.org/scaleway-community/scaleway-docker.svg?branch=master)](https://travis-ci.org/scaleway-community/scaleway-docker)
+[![Scaleway ImageHub](https://img.shields.io/badge/ImageHub-view-ff69b4.svg)](https://hub.scaleway.com/docker.html)
+[![Run on Scaleway](https://img.shields.io/badge/Scaleway-run-69b4ff.svg)](https://cloud.scaleway.com/#/servers/new?image=c1b530d8-0ca0-45c4-80db-ba06608287b2)
 
 
-Scripts to build the official Docker image on Scaleway
+Launch your Docker app on Scaleway servers in minutes.
 
-This image is built using [Image Tools](https://github.com/scaleway/image-tools) and depends on the official [Ubuntu](https://github.com/scaleway/image-ubuntu) image.
+<img src="http://stratechery.com/wp-content/uploads/2014/12/docker.png" width="400px" />
 
 ---
 
-**This image is meant to be used on a C1 server.**
+## How to hack
+
+**This image is meant to be used on a Scaleway server.**
 
 We use the Docker's building system and convert it at the end to a disk image that will boot on real servers without Docker. Note that the image is still runnable as a Docker container for debug or for inheritance.
 
-[More info](https://github.com/scaleway/image-tools#docker-based-builder)
-
----
-
-## Install
-
-Build and write the image to /dev/nbd1 (see [documentation](https://www.scaleway.com/docs/create-an-image-with-docker))
-
-    $ make install
-
-Full list of commands available at: [scaleway/image-tools](https://github.com/scaleway/image-tools/tree/master/scripts#commands)
+[More info](https://github.com/scaleway/image-builder)
 
 ---
 
