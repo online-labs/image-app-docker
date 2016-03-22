@@ -22,14 +22,18 @@ We use the Docker's building system and convert it at the end to a disk image th
 
 ## Links
 
-- Compatible images
-  - [Docker Hub: "armbuild"](https://hub.docker.com/search/?q=armbuild&page=1&isAutomated=0&isOfficial=0&starCount=0&pullCount=0)
-  - [Docker Hub: "hypriot"](https://hub.docker.com/search/?q=hypriot&page=1&isAutomated=0&isOfficial=0&starCount=0&pullCount=0)
-  - [Docker Hub: "armhf"](https://hub.docker.com/search/?q=armhf&page=1&isAutomated=0&isOfficial=0&starCount=0&pullCount=0)
-- [Hypriot Blog: Docker on Raspberry PI (compatible with Scaleway)](http://blog.hypriot.com)
-- [Community: Docker Support](https://community.cloud.online.net/t/official-docker-support/374?u=manfred)
-- [Community: Getting started with Docker on C1 (armhf)](https://community.cloud.online.net/t/getting-started-docker-on-c1-armhf/383?u=manfred)
-- [Online Labs Blog - Docker on C1](https://blog.cloud.online.net/2014/10/27/docker-on-c1/)
+
+- Docker on the C1
+  - [Hypriot Blog: Docker on Raspberry PI (compatible with Scaleway)](http://blog.hypriot.com)
+  - [Community: Docker Support](https://community.cloud.online.net/t/official-docker-support/374?u=manfred)
+  - [Community: Getting started with Docker on C1 (armhf)](https://community.cloud.online.net/t/getting-started-docker-on-c1-armhf/383?u=manfred)
+  - [Online Labs Blog - Docker on C1](https://blog.cloud.online.net/2014/10/27/docker-on-c1/)
+    - Compatible images for the C1
+    - [Docker Hub: "armbuild"](https://hub.docker.com/search/?q=armbuild&page=1&isAutomated=0&isOfficial=0&starCount=0&pullCount=0)
+    - [Docker Hub: "hypriot"](https://hub.docker.com/search/?q=hypriot&page=1&isAutomated=0&isOfficial=0&starCount=0&pullCount=0)
+    - [Docker Hub: "armhf"](https://hub.docker.com/search/?q=armhf&page=1&isAutomated=0&isOfficial=0&starCount=0&pullCount=0)
+- Docker on C1 and/or C2
+  - [Maartje Eyskens: Multiarch Docker images](https://eyskens.me/multiarch-docker-images/)
 
 ---
 
