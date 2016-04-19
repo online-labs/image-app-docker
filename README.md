@@ -8,6 +8,8 @@ Launch your Docker app on Scaleway servers in minutes.
 
 <img src="http://stratechery.com/wp-content/uploads/2014/12/docker.png" width="400px" />
 
+Alternatively, you now can use [Docker Machine](https://docs.docker.com/machine/) to provision Docker Engine on Scaleway servers, using [docker-machine-driver-scaleway](https://github.com/scaleway/docker-machine-driver-scaleway).
+
 ---
 
 ## How to hack
