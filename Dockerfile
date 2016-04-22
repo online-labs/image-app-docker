@@ -1,11 +1,11 @@
 ## -*- docker-image-name: "scaleway/docker" -*-
-FROM scaleway/ubuntu:amd64-wily
+FROM scaleway/ubuntu:amd64-xenial
 # following 'FROM' lines are used dynamically thanks do the image-builder
 # which dynamically update the Dockerfile if needed.
-#FROM scaleway/ubuntu:armhf-wily	# arch=armv7l
-#FROM scaleway/ubuntu:arm64-wily	# arch=arm64
-#FROM scaleway/ubuntu:i386-wily		# arch=i386
-#FROM scaleway/ubuntu:mips-wily		# arch=mips
+#FROM scaleway/ubuntu:armhf-xenial	# arch=armv7l
+#FROM scaleway/ubuntu:arm64-xenial	# arch=arm64
+#FROM scaleway/ubuntu:i386-xenial	# arch=i386
+#FROM scaleway/ubuntu:mips-xenial	# arch=mips
 
 
 MAINTAINER Scaleway <opensource@scaleway.com> (@scaleway)
