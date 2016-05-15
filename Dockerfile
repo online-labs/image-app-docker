@@ -42,7 +42,7 @@ RUN apt-get install $(apt-cache depends docker.io | grep Depends | sed "s/.*ends
 # Install Docker
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -s https://packagecloud.io/install/repositories/Hypriot/Schatzkiste/script.deb.sh | bash   \
+      curl -s https://packagecloud.io/install/repositories/Hypriot/Schatzkiste/script.deb.sh | os=Debian dist=jessie bash   \
       apt-get install docker-engine                                                                   \
       systemctl enable docker;                                                                        \
       ;;                                                                                              \
