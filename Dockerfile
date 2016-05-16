@@ -42,10 +42,8 @@ RUN apt-get install $(apt-cache depends docker.io | grep Depends | sed "s/.*ends
 # Install Docker
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      echo "docker-hypriot_XXX_armhf.deb built using https://github.com/hypriot/rpi-docker-builder";  \
-      wget -q http://downloads.hypriot.com/docker-hypriot_1.10.0-1_armhf.deb -O /tmp/docker.deb &&    \
-      dpkg -i /tmp/docker.deb &&                                                                      \
-      rm -f /tmp/docker.deb &&                                                                        \
+      curl -s https://packagecloud.io/install/repositories/Hypriot/Schatzkiste/script.deb.sh | os=Debian dist=jessie bash   \
+      apt-get install docker-engine                                                                   \
       systemctl enable docker;                                                                        \
       ;;                                                                                              \
     amd64|x86_64|i386)                                                                                \
@@ -83,7 +81,7 @@ RUN case "${ARCH}" in                                                           
       ;;                                                                                                             \
     esac                                                                                                             \
  && ( gosu --version || true )
-    
+
 
 
 # Install Docker Compose
