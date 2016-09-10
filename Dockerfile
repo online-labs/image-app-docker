@@ -18,7 +18,7 @@ RUN /usr/local/sbin/builder-enter
 # Install packages
 RUN sed -i '/mirror.scaleway/s/^/#/' /etc/apt/sources.list \
  && apt-get -q update                   \
- && apt-get --force-yes -y -qq upgrade  \
+ && echo "Y" | apt-get --force-yes -y -qq upgrade  \
  && apt-get --force-yes install -y -q   \
       apparmor                          \
       arping                            \
