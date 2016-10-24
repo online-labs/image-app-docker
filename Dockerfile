@@ -38,7 +38,7 @@ RUN sed -i '/mirror.scaleway/s/^/#/' /etc/apt/sources.list \
 # Install Docker
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.12.1-0~jessie_armhf.deb > docker.deb && \
+      curl -Ls https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.12.2-0~jessie_armhf.deb > docker.deb && \
       dpkg -i docker.deb &&                                                                           \
       rm docker.deb;                                                                                  \
       ;;                                                                                              \
@@ -58,7 +58,7 @@ RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/
 
 
 # Install Gosu
-ENV GOSU_VERSION=1.9
+ENV GOSU_VERSION=1.10
 RUN case "${ARCH}" in                                                                                                \
     armv7l|armhf|arm)                                                                                                \
         wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-armhf &&  \
@@ -88,7 +88,7 @@ RUN easy_install -U pip                                     \
 
 
 # Install Docker Machine
-ENV DOCKER_MACHINE_VERSION=0.8.1
+ENV DOCKER_MACHINE_VERSION=0.8.2
 RUN case "${ARCH}" in                                                                                                                                        \
     x86_64|amd64|i386)                                                                                                                                       \
         curl -L https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine-Linux-x86_64 >/usr/local/bin/docker-machine && \

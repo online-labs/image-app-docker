@@ -1,6 +1,6 @@
 NAME =			docker
 VERSION =		latest
-VERSION_ALIASES =	1.12.1 1.12 1
+VERSION_ALIASES =	1.12.2 1.12 1
 TITLE =			Docker
 DESCRIPTION =		Docker + Docker-Compose + gosu + nsenter + pipework
 SOURCE_URL =		https://github.com/scaleway-community/scaleway-docker
@@ -8,7 +8,7 @@ DEFAULT_IMAGE_ARCH =	x86_64
 
 IMAGE_VOLUME_SIZE =	50G
 IMAGE_BOOTSCRIPT =	docker
-IMAGE_NAME =		Docker 1.12.1
+IMAGE_NAME =		Docker 1.12.2
 
 
 ## Image tools  (https://github.com/scaleway/image-tools)
@@ -33,7 +33,7 @@ update_nsenter:
 	#  make LDFLAGS=-all-static nsenter \
 	#'
 	docker run --rm -v $(shell pwd)/overlay-x86_64/usr/bin/:/target jpetazzo/nsenter || true
-	  
+
 	# fetch docker-enter
 	wget https://raw.githubusercontent.com/jpetazzo/nsenter/master/docker-enter -NO overlay-$(TARGET_UNAME_ARCH)/usr/bin/docker-enter
 
