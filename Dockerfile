@@ -38,7 +38,7 @@ RUN sed -i '/mirror.scaleway/s/^/#/' /etc/apt/sources.list \
 # Install Docker
 RUN case "${ARCH}" in                                                                                 \
     armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.12.2-0~jessie_armhf.deb > docker.deb && \
+      curl -Ls https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.13.0-0~ubuntu-xenial_armhf.deb > docker.deb && \
       dpkg -i docker.deb &&                                                                           \
       rm docker.deb;                                                                                  \
       ;;                                                                                              \
