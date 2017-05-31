@@ -36,20 +36,7 @@ RUN sed -i '/mirror.scaleway/s/^/#/' /etc/apt/sources.list \
 
 
 # Install Docker
-RUN case "${ARCH}" in                                                                                 \
-    armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.12.2-0~jessie_armhf.deb > docker.deb && \
-      dpkg -i docker.deb &&                                                                           \
-      rm docker.deb;                                                                                  \
-      ;;                                                                                              \
-    amd64|x86_64|i386)                                                                                \
-      curl -L https://get.docker.com/ | sh;                                                           \
-      ;;                                                                                              \
-    *)                                                                                                \
-      echo "Unhandled architecture: ${ARCH}."; exit 1;                                                \
-      ;;                                                                                              \
-    esac                                                                                              \
- && docker --version
+RUN apt-get install -y docker.io && docker --version
 
 
 # Install Pipework
@@ -79,12 +66,8 @@ RUN case "${ARCH}" in                                                           
  && ( gosu --version || true )
 
 
-
 # Install Docker Compose
-RUN easy_install -U pip                                     \
- && pip install docker-compose                              \
- && ln -s /usr/local/bin/docker-compose /usr/local/bin/fig  \
- && docker-compose --version
+RUN apt-get install -y docker-compose && docker-compose --version
 
 
 # Install Docker Machine
