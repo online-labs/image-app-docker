@@ -45,7 +45,7 @@ RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/
 
 
 # Install Gosu
-RUN apt-get install -y gosu && gosu --version
+RUN apt-get install -y gosu
 
 
 # Install Docker Compose
