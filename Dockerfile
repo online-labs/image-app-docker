@@ -72,21 +72,21 @@ RUN apt-get install -y docker-compose && docker-compose --version
 
 # Install Docker Machine
 ENV DOCKER_MACHINE_VERSION=0.11.0
-RUN case "${ARCH}" in                                                                                                                                       \
-    x86_64|amd64|i386)                                                                                                                                      \
-        arch_docker=x86_64;                                                                                                                                 \
-        ;;                                                                                                                                                  \
-    aarch64|arm64)                                                                                                                                          \
-        arch_docker=aarch64;                                                                                                                                \
-        ;;                                                                                                                                                  \
-    armhf|armv7l|arm)                                                                                                                                       \
-        arch_docker=armhf;                                                                                                                                  \
-        ;;                                                                                                                                                  \
-    *)                                                                                                                                                      \
-        echo "docker-machine not yet supported for this architecture."; exit 0;                                                                             \
-        ;;                                                                                                                                                  \
-    esac;                                                                                                                                                   \
-    curl -L https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine-Linux-x86_64 >/usr/local/bin/docker-machine &&    \
+RUN case "${ARCH}" in                                                                                                                                               \
+    x86_64|amd64|i386)                                                                                                                                              \
+        arch_docker=x86_64;                                                                                                                                         \
+        ;;                                                                                                                                                          \
+    aarch64|arm64)                                                                                                                                                  \
+        arch_docker=aarch64;                                                                                                                                        \
+        ;;                                                                                                                                                          \
+    armhf|armv7l|arm)                                                                                                                                               \
+        arch_docker=armhf;                                                                                                                                          \
+        ;;                                                                                                                                                          \
+    *)                                                                                                                                                              \
+        echo "docker-machine not yet supported for this architecture."; exit 0;                                                                                     \
+        ;;                                                                                                                                                          \
+    esac;                                                                                                                                                           \
+    curl -L https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine-Linux-${arch_docker} >/usr/local/bin/docker-machine &&    \
     chmod +x /usr/local/bin/docker-machine && docker-machine --version
 
 
