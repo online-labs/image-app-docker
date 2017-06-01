@@ -45,25 +45,7 @@ RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/
 
 
 # Install Gosu
-ENV GOSU_VERSION=1.10
-RUN case "${ARCH}" in                                                                                                \
-    armv7l|armhf|arm)                                                                                                \
-        wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-armhf &&  \
-        chmod +x /usr/local/bin/gosu;                                                                                \
-      ;;                                                                                                             \
-    aarch64|arm64)                                                                                                   \
-        wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-arm64 &&  \
-        chmod +x /usr/local/bin/gosu;                                                                                \
-      ;;                                                                                                             \
-    x86_64|amd64)                                                                                                    \
-        wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-amd64 &&  \
-        chmod +x /usr/local/bin/gosu;                                                                                \
-       	;;                                                                                                           \
-    *)                                                                                                               \
-       	echo "Unhandled architecture: ${ARCH}."; exit 1;                                                             \
-      ;;                                                                                                             \
-    esac                                                                                                             \
- && ( gosu --version || true )
+RUN apt-get install -y gosu && gosu --version
 
 
 # Install Docker Compose
