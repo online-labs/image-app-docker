@@ -41,24 +41,23 @@ RUN apt-get install -q -y docker.io docker-compose
 
 
 # Install Docker Machine
-RUN case "${ARCH}" in                                                                                                                                               \
-    x86_64|amd64|i386)                                                                                                                                              \
-        arch_docker=x86_64;                                                                                                                                         \
-        ;;                                                                                                                                                          \
-    aarch64|arm64)                                                                                                                                                  \
-        arch_docker=aarch64;                                                                                                                                        \
-        ;;                                                                                                                                                          \
-    armhf|armv7l|arm)                                                                                                                                               \
-        arch_docker=armhf;                                                                                                                                          \
-        ;;                                                                                                                                                          \
-    *)                                                                                                                                                              \
-        echo "docker-machine not yet supported for this architecture."; exit 0;                                                                                     \
-        ;;                                                                                                                                                          \
-    esac;                                                                                                                                                           \
-    MACHINE_REPO=https://api.github.com/repos/docker/machine/releases/latest                                                                                        \
-    MACHINE_URL=$(curl -L $MACHINE_REPO | jq -r --arg n "docker-machine-Linux-${arch_docker}" '.assets[] | select(.name | contains($n)) | .browser_download_url')   \
-    curl -L $MACHINE_URL >/usr/local/bin/docker-machine &&                                                                                                          \
-    chmod +x /usr/local/bin/docker-machine
+RUN case "${ARCH}" in                                                                                                                                                 \
+    x86_64|amd64|i386)                                                                                                                                                \
+        arch_docker=x86_64;                                                                                                                                           \
+        ;;                                                                                                                                                            \
+    aarch64|arm64)                                                                                                                                                    \
+        arch_docker=aarch64;                                                                                                                                          \
+        ;;                                                                                                                                                            \
+    armhf|armv7l|arm)                                                                                                                                                 \
+        arch_docker=armhf;                                                                                                                                            \
+        ;;                                                                                                                                                            \
+    *)                                                                                                                                                                \
+        echo "docker-machine not yet supported for this architecture."; exit 0;                                                                                       \
+        ;;                                                                                                                                                            \
+    esac;                                                                                                                                                             \
+    MACHINE_REPO=https://api.github.com/repos/docker/machine/releases/latest;                                                                                         \
+    MACHINE_URL=$(curl -s -L $MACHINE_REPO | jq -r --arg n "docker-machine-Linux-${arch_docker}" '.assets[] | select(.name | contains($n)) | .browser_download_url'); \
+    curl -s -L $MACHINE_URL >/usr/local/bin/docker-machine && chmod +x /usr/local/bin/docker-machine
 
 
 # Install Pipework
@@ -72,5 +71,5 @@ RUN systemctl disable docker; systemctl enable docker
 
 
 # Clean rootfs from image-builder
-RUN /usr/local/sbin/builder-leave && apt-get remove --auto-remove jq
+RUN /usr/local/sbin/builder-leave && apt-get remove --auto-remove -y jq
 
