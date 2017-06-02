@@ -18,8 +18,8 @@ RUN /usr/local/sbin/builder-enter
 # Install packages
 RUN sed -i '/mirror.scaleway/s/^/#/' /etc/apt/sources.list \
  && apt-get -q update                   \
- && echo "Y" | apt-get --force-yes -y -qq upgrade  \
- && apt-get --force-yes install -y -q   \
+ && echo "Y" | apt-get upgrade  -y -qq  \
+ && apt-get install -y -q               \
       apparmor                          \
       arping                            \
       aufs-tools                        \
@@ -32,24 +32,12 @@ RUN sed -i '/mirror.scaleway/s/^/#/' /etc/apt/sources.list \
       lxc                               \
       python-setuptools                 \
       vlan                              \
+      gosu                              \
  && apt-get clean
 
 
 # Install Docker
-RUN apt-get install -y docker.io && docker --version
-
-
-# Install Pipework
-RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework  \
- && chmod +x /usr/local/bin/pipework
-
-
-# Install Gosu
-RUN apt-get install -y gosu
-
-
-# Install Docker Compose
-RUN apt-get install -y docker-compose && docker-compose --version
+RUN apt-get install -q -y docker.io docker-compose
 
 
 # Install Docker Machine
@@ -70,6 +58,11 @@ RUN case "${ARCH}" in                                                           
     esac;                                                                                                                                                           \
     curl -L https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine-Linux-${arch_docker} >/usr/local/bin/docker-machine &&    \
     chmod +x /usr/local/bin/docker-machine && docker-machine --version
+
+
+# Install Pipework
+RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework  \
+ && chmod +x /usr/local/bin/pipework
 
 
 # Patch rootfs
