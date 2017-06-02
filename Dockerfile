@@ -12,7 +12,7 @@ MAINTAINER Scaleway <opensource@scaleway.com> (@scaleway)
 
 
 # Prepare rootfs for image-builder
-RUN /usr/local/sbin/builder-enter
+RUN /usr/local/sbin/builder-enter && apt-get install -y -q jq
 
 
 # Install packages
@@ -41,7 +41,6 @@ RUN apt-get install -q -y docker.io docker-compose
 
 
 # Install Docker Machine
-ENV DOCKER_MACHINE_VERSION=0.11.0
 RUN case "${ARCH}" in                                                                                                                                               \
     x86_64|amd64|i386)                                                                                                                                              \
         arch_docker=x86_64;                                                                                                                                         \
@@ -56,7 +55,9 @@ RUN case "${ARCH}" in                                                           
         echo "docker-machine not yet supported for this architecture."; exit 0;                                                                                     \
         ;;                                                                                                                                                          \
     esac;                                                                                                                                                           \
-    curl -L https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine-Linux-${arch_docker} >/usr/local/bin/docker-machine &&    \
+    MACHINE_REPO=https://api.github.com/repos/docker/machine/releases/latest                                                                                        \
+    MACHINE_URL=$(curl -L $MACHINE_REPO | jq --arg n "docker-machine-Linux-${arch_docker}" '.assets[] | select(.name | contains($n)) | .url')                       \
+    curl -L $MACHINE_URL >/usr/local/bin/docker-machine &&                                                                                                          \
     chmod +x /usr/local/bin/docker-machine && docker-machine --version
 
 
@@ -71,5 +72,5 @@ RUN systemctl disable docker; systemctl enable docker
 
 
 # Clean rootfs from image-builder
-RUN /usr/local/sbin/builder-leave
+RUN /usr/local/sbin/builder-leave && apt-get remove --auto-remove jq
 
