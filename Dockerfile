@@ -56,9 +56,9 @@ RUN case "${ARCH}" in                                                           
         ;;                                                                                                                                                          \
     esac;                                                                                                                                                           \
     MACHINE_REPO=https://api.github.com/repos/docker/machine/releases/latest                                                                                        \
-    MACHINE_URL=$(curl -L $MACHINE_REPO | jq -r --arg n "docker-machine-Linux-${arch_docker}" '.assets[] | select(.name | contains($n)) | .url')                       \
+    MACHINE_URL=$(curl -L $MACHINE_REPO | jq -r --arg n "docker-machine-Linux-${arch_docker}" '.assets[] | select(.name | contains($n)) | .browser_download_url')   \
     curl -L $MACHINE_URL >/usr/local/bin/docker-machine &&                                                                                                          \
-    chmod +x /usr/local/bin/docker-machine && docker-machine --version
+    chmod +x /usr/local/bin/docker-machine
 
 
 # Install Pipework
