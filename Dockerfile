@@ -12,14 +12,14 @@ MAINTAINER Scaleway <opensource@scaleway.com> (@scaleway)
 
 
 # Prepare rootfs for image-builder
-RUN /usr/local/sbin/builder-enter
+RUN /usr/local/sbin/builder-enter && apt-get install -y -q jq
 
 
 # Install packages
 RUN sed -i '/mirror.scaleway/s/^/#/' /etc/apt/sources.list \
  && apt-get -q update                   \
- && echo "Y" | apt-get --force-yes -y -qq upgrade  \
- && apt-get --force-yes install -y -q   \
+ && echo "Y" | apt-get upgrade  -y -qq  \
+ && apt-get install -y -q               \
       apparmor                          \
       arping                            \
       aufs-tools                        \
@@ -32,73 +32,37 @@ RUN sed -i '/mirror.scaleway/s/^/#/' /etc/apt/sources.list \
       lxc                               \
       python-setuptools                 \
       vlan                              \
+      gosu                              \
  && apt-get clean
 
 
 # Install Docker
-RUN case "${ARCH}" in                                                                                 \
-    armv7l|armhf|arm)                                                                                 \
-      curl -Ls https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.12.2-0~jessie_armhf.deb > docker.deb && \
-      dpkg -i docker.deb &&                                                                           \
-      rm docker.deb;                                                                                  \
-      ;;                                                                                              \
-    amd64|x86_64|i386)                                                                                \
-      curl -L https://get.docker.com/ | sh;                                                           \
-      ;;                                                                                              \
-    *)                                                                                                \
-      echo "Unhandled architecture: ${ARCH}."; exit 1;                                                \
-      ;;                                                                                              \
-    esac                                                                                              \
- && docker --version
+RUN apt-get install -q -y docker.io docker-compose
+
+
+# Install Docker Machine
+RUN case "${ARCH}" in                                                                                                                                                 \
+    x86_64|amd64|i386)                                                                                                                                                \
+        arch_docker=x86_64;                                                                                                                                           \
+        ;;                                                                                                                                                            \
+    aarch64|arm64)                                                                                                                                                    \
+        arch_docker=aarch64;                                                                                                                                          \
+        ;;                                                                                                                                                            \
+    armhf|armv7l|arm)                                                                                                                                                 \
+        arch_docker=armhf;                                                                                                                                            \
+        ;;                                                                                                                                                            \
+    *)                                                                                                                                                                \
+        echo "docker-machine not yet supported for this architecture."; exit 0;                                                                                       \
+        ;;                                                                                                                                                            \
+    esac;                                                                                                                                                             \
+    MACHINE_REPO=https://api.github.com/repos/docker/machine/releases/latest;                                                                                         \
+    MACHINE_URL=$(curl -s -L $MACHINE_REPO | jq -r --arg n "docker-machine-Linux-${arch_docker}" '.assets[] | select(.name | contains($n)) | .browser_download_url'); \
+    curl -s -L $MACHINE_URL >/usr/local/bin/docker-machine && chmod +x /usr/local/bin/docker-machine
 
 
 # Install Pipework
 RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework  \
  && chmod +x /usr/local/bin/pipework
-
-
-# Install Gosu
-ENV GOSU_VERSION=1.10
-RUN case "${ARCH}" in                                                                                                \
-    armv7l|armhf|arm)                                                                                                \
-        wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-armhf &&  \
-        chmod +x /usr/local/bin/gosu;                                                                                \
-      ;;                                                                                                             \
-    aarch64|arm64)                                                                                                   \
-        wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-arm64 &&  \
-        chmod +x /usr/local/bin/gosu;                                                                                \
-      ;;                                                                                                             \
-    x86_64|amd64)                                                                                                    \
-        wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-amd64 &&  \
-        chmod +x /usr/local/bin/gosu;                                                                                \
-       	;;                                                                                                           \
-    *)                                                                                                               \
-       	echo "Unhandled architecture: ${ARCH}."; exit 1;                                                             \
-      ;;                                                                                                             \
-    esac                                                                                                             \
- && ( gosu --version || true )
-
-
-
-# Install Docker Compose
-RUN easy_install -U pip                                     \
- && pip install docker-compose                              \
- && ln -s /usr/local/bin/docker-compose /usr/local/bin/fig  \
- && docker-compose --version
-
-
-# Install Docker Machine
-ENV DOCKER_MACHINE_VERSION=0.8.2
-RUN case "${ARCH}" in                                                                                                                                        \
-    x86_64|amd64|i386)                                                                                                                                       \
-        curl -L https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine-Linux-x86_64 >/usr/local/bin/docker-machine && \
-        chmod +x /usr/local/bin/docker-machine &&                                                                                                            \
-       	docker-machine --version;                                                                                                                            \
-      ;;                                                                                                                                                     \
-    *)                                                                                                                                                       \
-       	echo "docker-machine not yet supported for this architecture."                                                                                       \
-      ;;                                                                                                                                                     \
-    esac
 
 
 # Patch rootfs
@@ -107,5 +71,5 @@ RUN systemctl disable docker; systemctl enable docker
 
 
 # Clean rootfs from image-builder
-RUN /usr/local/sbin/builder-leave
+RUN /usr/local/sbin/builder-leave && apt-get remove --auto-remove -y jq
 
