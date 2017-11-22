@@ -1,0 +1,4 @@
+file:
+  - path: /lib/systemd/system/docker.service
+    owner: root:root
+    perm: 0655
